@@ -10,17 +10,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.database.Cursor;
 import android.location.*;
-import android.os.AsyncTask;
-import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,16 +26,13 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.*;
+import com.itm.projekt.Database.SqliteHelper;
 import com.itm.projekt.Fragments.LatestResultFragment;
-import com.itm.projekt.Items.BasicItem;
-import com.itm.projekt.Items.ProgressItem;
 import com.itm.projekt.MainActivity;
 import com.itm.projekt.MapHelper.GeoLocation;
-import com.itm.projekt.MapHelper.GeoRevItem;
 import com.itm.projekt.MapHelper.GeoReversed;
 import com.itm.projekt.R;
 
-import java.io.IOException;
 import java.util.*;
 
 
@@ -59,6 +52,7 @@ public class MapFragment extends Fragment implements
     private LocationListener locationListener;
     private Marker currentMarker;
     private SharedPreferences prefs;
+    private SqliteHelper database;
 
     // Stockholm is the default location.
     static final LatLng STOCKHOLM = new LatLng(59.338092,18.069656);
@@ -132,6 +126,7 @@ public class MapFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         mBundle = savedInstanceState;
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        database = new SqliteHelper(getActivity());
         getActivity().getSharedPreferences(getResources().getString(R.string.savedPrefs), 0).registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -142,6 +137,12 @@ public class MapFragment extends Fragment implements
                 setUpMap();
             }
         }
+    }
+
+    public void updatePostion(LatLng latLng, final String location, final String subLocation) {
+        updateMarker(latLng);
+        panToPosition(latLng);
+        createRealtorQuery(location, subLocation);
     }
 
     public void updatePosition(LatLng latLng) {
@@ -275,6 +276,7 @@ public class MapFragment extends Fragment implements
     private void googleGeoQuery(LatLng point) {
         String url =  getString(R.string.geoloc)
                 +"sensor=true&latlng="+point.latitude+","+point.longitude;
+        Log.d(TAG, "Quering " + url);
         new GeoLocation(this).execute(url);
     }
 
@@ -287,7 +289,7 @@ public class MapFragment extends Fragment implements
 
         Realtors realtors = new Realtors(this);
         String query = getResources().getString(R.string.realtorquery)
-                + realtors.encode(location) + "/" + realtors.encode(subLocation) + "/" + (type == null ? "a" : type);
+                + realtors.encode(location) + "/" + realtors.encode(subLocation) + "/" + (type == null || type.isEmpty() ? "a" : type);
 
         Log.d(TAG, "Performing query on " + query);
 
@@ -299,15 +301,6 @@ public class MapFragment extends Fragment implements
         updateMarker(lastLatLng);
         panToPosition(lastLatLng, 10);
         googleGeoQuery(lastLatLng);
-    }
-
-    private void updateCurrentPosition() {
-
-        LatLng lastLatLng = getCurrentPosition();
-        updateMarker(lastLatLng);
-        panToPosition(lastLatLng);
-        googleGeoQuery(lastLatLng);
-
     }
 
     private ArrayList<String> getRealtorTypes() {
@@ -322,6 +315,15 @@ public class MapFragment extends Fragment implements
     public void onGeoLocationReady(String locality, String subLocality) {
         setCurrentLocality(subLocality);
         Log.d(TAG, " ======== GOT ALL LOCATIONS! " + locality + "/" + subLocality);
+
+        if(database != null) {
+            database.createRecord(locality, subLocality, currentMarker.getPosition());
+        }
+
+        createRealtorQuery(locality, subLocality);
+    }
+
+    private void createRealtorQuery(final String locality, final String subLocality) {
         boolean allTypes = prefs.getBoolean("pref_key_search_all", false);
 
         if(!allTypes) {
@@ -341,7 +343,6 @@ public class MapFragment extends Fragment implements
             realtorsQuery(locality, subLocality, "a");
         }
     }
-
     @Override
     public void onGeoLocationReady(LatLng latLng) {
         updatePosition(latLng);
@@ -423,13 +424,17 @@ public class MapFragment extends Fragment implements
     @Override
     public void onRealtorsReady(RealtorAreaAverage areaAverage, List<RealtorItem> realtors) {
 
-        final String fragmentId = "com.itm.projekt.Fragments.LatestResultFragment";
+        final String fragmentId = getString(R.string.latestResultFragment);
         final int maxItems = Integer.parseInt(prefs.getString("pref_search_max_results", "15"));
 
         Fragment fragment = ((MainActivity)getActivity()).addFragment(fragmentId);
 
         if(fragment != null) {
-            ((LatestResultFragment)fragment).updateAdapter(currentMarker.getTitle(), areaAverage, realtors.subList(0, maxItems));
+            ((LatestResultFragment)fragment).updateAdapter(
+                    currentMarker.getTitle(),
+                    areaAverage,
+                    (realtors.size() > maxItems ? realtors.subList(0, maxItems) : realtors)
+            );
             ((MainActivity)getActivity()).updateNotificationItem(fragmentId, maxItems);
             Toast.makeText(getActivity().getApplicationContext(), "La till " + maxItems +" resultat.", Toast.LENGTH_LONG).show();
 
@@ -448,9 +453,25 @@ public class MapFragment extends Fragment implements
      * @param query
      */
     public void mapQuery(final String query) {
+
+        if(database != null) {
+            Cursor c = database.query(query);
+            if (c != null ) {
+                if  (c.moveToFirst()) {
+                    String location = c.getString(c.getColumnIndex("_location"));
+                    String sublocation = c.getString(c.getColumnIndex("_sublocation"));
+                    double lat = c.getDouble(c.getColumnIndex("_lat"));
+                    double lng = c.getDouble(c.getColumnIndex("_lng"));
+                    Log.d(TAG, " ==== Got location " + location + " " + sublocation + "\n and lat:" + lat + "\n and lng:" + lng);
+                    updatePostion(new LatLng(lat, lng), location, sublocation);
+                    return;
+                }
+            } else Log.d(TAG, " === NO SQLITE RECORDS!");
+        }
+
         String url =  getString(R.string.geoRev)
                 +"sensor=false&address="+query;
-        Log.d(TAG, "Doing query on " + url);
+        Log.d(TAG, " === Doing query on " + url);
         new GeoReversed(this).execute(url);
     }
 

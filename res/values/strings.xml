@@ -2,8 +2,8 @@
 <resources>
     <string name="app_name">Mäklarappen</string>
     <string name="currentPosition">Du är här</string>
-    <string name="geoloc">https://maps.googleapis.com/maps/api/geocode/json?</string>
-    <string name="geoRev">http://maps.google.com/maps/api/geocode/json?</string>
+    <string name="geoloc">https://maps.google.com/maps/api/geocode/json?</string>
+    <string name="geoRev">https://maps.google.com/maps/api/geocode/json?</string>
     <string name="realtorquery">http://10.0.1.8:8080/hemnet/search/</string>
 
     <string name="title_map">Visa karta</string>
@@ -25,6 +25,7 @@
 
     <string name="currentFragment">currentFragment</string>
     <string name="mapFragment">com.itm.projekt.Hemnet.MapFragment</string>
+    <string name="latestResultFragment">com.itm.projekt.Fragments.LatestResultFragment</string>
     <string name="savedPlacesFragment">com.itm.projekt.Fragments.SavedPlacesFragment</string>
     <string name="savedPrefs">savedplaces</string>
     <string name="locationEnabled">pref_key_location_enabled</string>

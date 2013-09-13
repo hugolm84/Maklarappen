@@ -1,7 +1,3 @@
-/**
- * Hugo Lindström (C) 2013
- * huli1000
- */
 package com.itm.projekt.MapHelper;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -74,6 +70,15 @@ public class GeoLocationItem {
         private String long_name;
         private String short_name;
         private List<String> types;
+        public Geometry geometry;
+
+        public static class Geometry {
+            public Location location;
+            public static class Location {
+                public double lat;
+                public double lng;
+            }
+        }
 
         @Override
         public String toString() {
@@ -81,6 +86,7 @@ public class GeoLocationItem {
                     "long_name='" + long_name + '\'' +
                     ", short_name='" + short_name + '\'' +
                     ", types=" + types +
+                    ", geometry=" + geometry.location.lat + " " +
                     '}';
         }
 

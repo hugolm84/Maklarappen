@@ -76,6 +76,9 @@ public class GeoLocation extends JSONResponse {
                 items = mapper.readValue(root, new TypeReference<List<GeoLocationItem>>() {});
 
                 Log.d(TAG, "Found " + items.size() + " items!");
+                for(GeoLocationItem item : items) {
+                    Log.d(TAG, "Found " + item.toString());
+                }
 
             } catch (IOException e) {
 
@@ -101,32 +104,60 @@ public class GeoLocation extends JSONResponse {
         protected void onPostExecute(List<GeoLocationItem> items) {
 
             Set<GeoLocationItem> itemSet = new HashSet<GeoLocationItem>();
+            Set<GeoLocationItem> itemInvalidSet = new HashSet<GeoLocationItem>();
+
             synchronized(this) {
                 for(GeoLocationItem item : items) {
-                    if( item.getLocality().isValid() ) {
-                        item.toString();
+
+                    GeoLocationItem.Locality loc = item.getLocality();
+                    if( loc.getSubLocality() == null ){
+                        if(loc.getCounty() != null && loc.getLocality() != null) {
+                            itemInvalidSet.add(item);
+                        }
+                    }
+                    else {
                         itemSet.add(item);
                     }
                 }
             }
 
-            for(GeoLocationItem item : itemSet) {
-                Log.d(TAG, item.getLocality().toString());
+            if(itemSet.isEmpty()) {
+                Log.d(TAG, "No valid locals!");
             }
 
-            if(itemSet.isEmpty()) {
+            if( itemInvalidSet.isEmpty()) {
+                Log.d(TAG, "No invalid locals!");
+            }
+
+            for(GeoLocationItem item : itemSet) {
+                Log.d(TAG, "Valid: " + item.getLocality().toString());
+            }
+
+            for(GeoLocationItem item : itemInvalidSet) {
+                Log.d(TAG, "Invalid: " + item.getLocality().toString());
+            }
+
+            if(itemSet.isEmpty() && itemInvalidSet.isEmpty()) {
                 if(geoLocationListener != null) {
                     geoLocationListener.onGeoLocationError("Geolocations was empty!");
                 }
                 return;
             }
 
-            GeoLocationItem.Locality loc = itemSet.iterator().next().getLocality();
             if(geoLocationListener != null) {
 
+                GeoLocationItem.Locality loc;
+
+                if(!itemSet.isEmpty())
+                    loc = itemSet.iterator().next().getLocality();
+                else
+                    loc = itemInvalidSet.iterator().next().getLocality();
+
+                final String subLocation = (loc.getSubLocality() == null ? loc.getLocality() : loc.getSubLocality());
                 final String location = (loc.getLocality() == null ? loc.getCounty() : loc.getLocality());
-                Log.d(TAG, "Sending GeoLocationItem " + location + " " + loc.getSubLocality());
-                geoLocationListener.onGeoLocationReady(location, loc.getSubLocality());
+
+                Log.d(TAG, "Sending GeoLocationItem " + location + " " + subLocation);
+                geoLocationListener.onGeoLocationReady(location, subLocation);
             }
         }
     }
