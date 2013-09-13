@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dip"
+                android:background="#fff"
+                android:id="@+id/basic_list_item_layout"
+                style="@style/ColoredListItem">
+
+    <!-- Right icon -->
+    <ImageView
+            android:id="@+id/basic_list_right_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/content_discard"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"/>
+
+    <!-- Left icon -->
+    <ImageView
+            android:id="@+id/basic_list_left_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:src="@drawable/location_place"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"/>
+
+    <!-- Base text-->
+    <TextView
+            android:id="@+id/basic_list_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom ="5dip"
+            android:text="Basic List Item Title"
+            android:paddingTop="5dip"
+            android:gravity="start"
+            style="@style/ListItemTextView"
+            android:layout_toRightOf="@+id/basic_list_left_icon"
+            android:layout_alignParentTop="true"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/basic_list_item_summary"
+            android:layout_toRightOf="@+id/basic_list_left_icon"
+            android:layout_alignBottom="@+id/basic_list_left_icon"
+            android:paddingLeft="5dp"
+            android:textSize="8sp"
+            android:visibility="invisible"/>
+
+</RelativeLayout>

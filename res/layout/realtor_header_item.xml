@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="5dip"
+                android:background="#fff"
+                android:id="@+id/realtor_list_layout"
+                style="@style/ColoredListItem">
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_gravity="left|center_vertical"
+            android:src="@drawable/ic_all_houses"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"/>
+
+    <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/header_table"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_alignTop="@+id/imageView"
+            android:layout_marginTop="10dp"
+            android:divider="@android:drawable/divider_horizontal_bright"
+            android:dividerPadding="2dp"
+            android:showDividers="middle">
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/row_header">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/header_area"
+                    android:textStyle="bold"/>
+
+        </TableRow>
+
+        <include layout="@layout/realtor_table_row"
+                 android:id="@+id/row1" />
+        <include layout="@layout/realtor_table_row"
+                 android:id="@+id/row2" />
+        <include layout="@layout/realtor_table_row"
+                 android:id="@+id/row3" />
+        <include layout="@layout/realtor_table_row"
+                 android:id="@+id/row4" />
+
+    </TableLayout>
+
+    <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="#DADADA"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/header_table"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:id="@+id/divider"/>
+
+    <ExpandableListView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/expandableListView"
+            android:background="@android:color/white"
+            android:layout_alignLeft="@+id/imageView"
+            android:layout_below="@+id/divider"/>
+
+
+</RelativeLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- the theme applied to the application or activity -->
+    <style name="ColoredActionBarTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ColoredActionBar</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="ColoredActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@android:color/holo_blue_light</item>
+    </style>
+
+    <style name="ColoredListView" parent="@android:style/Widget.Holo.ListView">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">start</item>
+        <item name="android:choiceMode">singleChoice</item>
+        <item name="android:divider">#dad8d8</item>
+        <item name="android:dividerHeight">1dp</item>
+        <item name="android:background">#eaeaea</item>
+        <item name="android:listPreferredItemHeight">44dp</item>
+    </style>
+
+    <style name="ColoredListItem">
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="ColoredListSectionItem">
+        <item name="android:background">#f4f4f4</item>
+        <item name="android:divider">#dad8d8</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <style name="ListSectionTextView">
+        <item name="android:paddingLeft">5dp</item>
+    </style>
+
+    <style name="ListItemTextView">
+        <item name="android:paddingLeft">3dp</item>
+    </style>
+
+
+    <style name="ProgressButton"/>
+
+    <!-- Base theme for the Progress button. -->
+    <style name="ProgressButton.Pin">
+        <item name="progress">0</item>
+        <item name="max">100</item>
+        <item name="circleColor">@color/progress_default_circle_color</item>
+        <item name="progressColor">@color/progress_default_progress_color</item>
+        <item name="pinnedDrawable">@drawable/ic_all_types_colored</item>
+        <item name="unpinnedDrawable">@drawable/ic_all_types_colored</item>
+        <item name="shadowDrawable">@drawable/ic_all_types_colored</item>
+        <item name="innerSize">@dimen/progress_inner_size</item>
+        <item name="pinned">false</item>
+        <item name="android:selectableItemBackground">?android:selectableItemBackground</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+    </style>
+
+</resources>

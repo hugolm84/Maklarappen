@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mäklarappen</string>
+    <string name="currentPosition">Du är här</string>
+    <string name="geoloc">https://maps.googleapis.com/maps/api/geocode/json?</string>
+    <string name="geoRev">http://maps.google.com/maps/api/geocode/json?</string>
+    <string name="realtorquery">http://10.0.1.8:8080/hemnet/search/</string>
+
+    <string name="title_map">Visa karta</string>
+    <string name="title_settings">Inställningar</string>
+    <string name="title_saved_places">Sparade platser</string>
+    <string name="title_base_menu">Meny</string>
+    <string name="title_search_menu">Sökningar</string>
+    <string name="title_latest">Senaste</string>
+    <string name="title_history">Historik</string>
+
+    <string name="dialog_save_place">Spara denna plats?</string>
+    <string name="save">Spara</string>
+    <string name="cancel">Avbryt</string>
+    <string name="dialog_saved_place">La till denna plats i Sparade Platser</string>
+    <string name="realty_type_house">Friliggande villa</string>
+    <string name="realty_type_appartment">Bostadsrättslägenhet</string>
+    <string name="realty_type_pairhouse">Par/Rad/Kedjehus</string>
+    <string name="realty_type_cottage">Fritidshus</string>
+
+    <string name="currentFragment">currentFragment</string>
+    <string name="mapFragment">com.itm.projekt.Hemnet.MapFragment</string>
+    <string name="savedPlacesFragment">com.itm.projekt.Fragments.SavedPlacesFragment</string>
+    <string name="savedPrefs">savedplaces</string>
+    <string name="locationEnabled">pref_key_location_enabled</string>
+    <string name="drawer_open">Öppna navigationen</string>
+    <string name="drawer_close">Stäng navigationen</string>
+    <string name="action_mapsearch">Kartsökning</string>
+    <string name="app_not_available">Tyvärr finns det inga kartor tillgängliga</string>
+
+
+    <string name="realtor_avg_area">Snitt i</string>
+    <string name="realtor_avg_price">Pris</string>
+    <string name="realtor_avg_fee">Avgift</string>
+    <string name="realtor_avg_age">Ålder</string>
+    <string name="realtor_avg_change">Prisförändring (%)</string>
+    <string name="realtor_item_age">Snittålder (dagar)</string>
+    <string name="realtor_item_days">dagar</string>
+    <string name="realtor_item_size">Storlek (m2)</string>
+    <string name="realtor_item_age">Listålder</string>
+    <string name="realtor_item_m2_prize">Pris/m2</string>
+    <string name="realtor_item_address">Address</string>
+    <string name="realtor_item_broker">Mäklare</string>
+    <string name="realtor_item_detail">Se objektet hos Hemnet</string>
+    <string name="realtor_url">http://www.hemnet.se/bostad/</string>
+
+</resources>

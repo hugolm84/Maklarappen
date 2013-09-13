@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="search_max_results_alias">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </string-array>
+    <integer-array name="search_max_results">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </integer-array>
+
+    <string-array name="empty_array"></string-array>
+
+    <string-array name="base_menu">
+        <item>@string/title_base_menu</item>
+        <item>@string/title_map</item>
+        <item>@string/title_settings</item>
+        <item>@string/title_saved_places</item>
+    </string-array>
+
+
+
+    <string-array name="base_menu_fragments">
+        <item></item>
+        <item>com.itm.projekt.Hemnet.MapFragment</item>
+        <item>com.itm.projekt.Fragments.SettingsFragment</item>
+        <item>com.itm.projekt.Fragments.SavedPlacesFragment</item>
+    </string-array>
+
+    <string-array name="search_menu">
+        <item>@string/title_search_menu</item>
+        <item>@string/title_latest</item>
+    </string-array>
+
+    <string-array name="search_menu_fragments">
+        <item></item>
+        <item>com.itm.projekt.Fragments.LatestResultFragment</item>
+    </string-array>
+
+
+    <string-array name="base_menu_icons">
+        <item></item>
+        <item>@drawable/location_map</item>
+        <item>@drawable/action_settings</item>
+        <item>@drawable/location_place</item>
+    </string-array>
+
+    <string-array name="search_menu_icons">
+        <item></item>
+        <item>@drawable/collections_view_as_list</item>
+    </string-array>
+
+
+</resources>
