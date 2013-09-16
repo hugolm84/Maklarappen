@@ -137,6 +137,7 @@ public class LatestResultFragment extends Fragment {
 
         DecimalFormat df = new DecimalFormat("#.00");
 
+        if(isAdded()) {
         ((TextView)row_header.findViewById(R.id.header_area)).setText(
                 getString(R.string.realtor_avg_area)
                         + currentArea
@@ -168,6 +169,7 @@ public class LatestResultFragment extends Fragment {
                 (avgItem.price_change_up-avgItem.price_change_down))
         );
 
+        }
     }
 
 

@@ -37,6 +37,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignBottom="@+id/detail_table"
             style="@android:style/Widget.Holo.Button"
-            />
+            android:background="@android:color/holo_blue_dark"/>
 
 </RelativeLayout>
